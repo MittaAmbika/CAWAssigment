@@ -1,5 +1,6 @@
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.json.simple.JSONArray;
@@ -13,6 +14,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
+
+
 
 public class HomePage {
 	WebDriver driver;
@@ -60,26 +63,28 @@ public class HomePage {
 	return arr;
 	}
 	@Test
-	void refreshbutton(){
-	WebElement refreshButton = driver.findElement(By.xpath("//button[@id='refreshtable']"));
+	void refreshbutton() {
+
+		WebElement refreshButton = driver.findElement(By.xpath("//button[@id='refreshtable']"));
 		refreshButton.click();
 	}
-	// Step 4: Verify the entered data is populated in the table
-		List<WebElement> rowsAfter = driver.findElements(By.xpath("//table[@id='dynamictable']//tr"));
-		Assert.assertEquals(rowsAfter.size(), rowsBefore.size() + 5, "Number of rows in the table should match the input data");
+@Test
+void verify() {
+List<WebElement> rowsBefore = driver.findElements(By.xpath("//table[@id='dynamictable']//tr"));
+// Step 4: Verify the entered data is populated in the table
+List<WebElement> rowsAfter = driver.findElements(By.xpath("//table[@id='dynamictable']//tr"));
+Assert.assertEquals(rowsAfter.size(), rowsBefore.size() + 5, "Number of rows in the table should match the input data");
 
-		// Step 5: Assert the data in the table matches the input data
-		List<WebElement> columns = driver.findElements(By.xpath("//table[@id='dynamictable']//th"));
-		assertColumnValue(columns.get(0), "Bob");
-		assertColumnValue(columns.get(1), "20");
-		assertColumnValue(columns.get(2), "male");
-	}
+// Step 5: Assert the data in the table matches the input data
+List<WebElement> columns = driver.findElements(By.xpath("//table[@id='dynamictable']//th"));
+assertColumnValue(columns.get(0), "Bob");
+assertColumnValue(columns.get(1), "20");
+assertColumnValue(columns.get(2), "male");
+}
 
-	private void assertColumnValue(WebElement column, String expectedValue) {
-		Assert.assertEquals(column.getText(), expectedValue);
-	}
-	
-	
+private void assertColumnValue(WebElement column, String expectedValue) {
+Assert.assertEquals(column.getText(), expectedValue);
+}
 }
 
 
